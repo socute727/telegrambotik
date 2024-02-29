@@ -8,7 +8,7 @@ import requests
 import random
 #токен (нада свой)
 
-TOKEN = "6463417924:AAEyaWB5ihc2EvtYJLf_PbAXuDbDtdENkTM"
+TOKEN = ""
 
 bot = telebot.TeleBot(TOKEN)
 
