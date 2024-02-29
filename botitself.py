@@ -67,7 +67,7 @@ def explode_user(message):
     except IndexError:
         bot.reply_to(message, 'Ты долбаёб? Кого мне взрывать? id укажи.')
 
-#гифки
+#рандомные гифки
 def get_random_konosuba_gif():
     api_key = "свой апи от гифи"
     tag = "konosuba"  #тег для поиска гифок
