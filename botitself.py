@@ -1,13 +1,16 @@
 #тута мы импортируем бота
 import telebot
+
 #для работы калькулятора
 from telebot import types
+
 #тута что бы бот мог угарать с файлами
 import requests
+
 #для казика
 import random
-#токен (нада свой)
 
+#токен (нада свой)
 TOKEN = ""
 
 bot = telebot.TeleBot(TOKEN)
