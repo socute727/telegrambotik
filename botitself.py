@@ -87,7 +87,7 @@ def send_random_gif(message):
         if gif_url:
             bot.send_document(message.chat.id, gif_url)
         else:
-            bot.reply_to(message, "Не удалось получить гифку. Попробуйте позже.")
+            bot.reply_to(message, "Не удалось получить гифку :(")
     except Exception as e:
         bot.reply_to(message, f"Ошибка при отправке гифки: {e}")
 
@@ -111,7 +111,7 @@ def send_random_gif(message):
         if gif_ass:
             bot.send_document(message.chat.id, gif_ass)
         else:
-            bot.reply_to(message, "Не удалось получить гифку. Попробуйте позже.")
+            bot.reply_to(message, "Не удалось получить гифку :(")
     except Exception as e:
         bot.reply_to(message, f"Ошибка при отправке гифки: {e}")
 
