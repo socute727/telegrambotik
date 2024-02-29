@@ -69,7 +69,7 @@ def explode_user(message):
 
 #гифки
 def get_random_konosuba_gif():
-    api_key = "edsyceW8ZKcvsPmJaFoTZRhV39ulOGfc"
+    api_key = "свой апи от гифи"
     tag = "konosuba"  #тег для поиска гифок
     url = f"https://api.giphy.com/v1/gifs/random?api_key={api_key}&tag={tag}&rating=g"
     response = requests.get(url)
@@ -93,7 +93,7 @@ def send_random_gif(message):
 
 #жопа
 def get_random_anime_ass_gif():
-    api_key = "edsyceW8ZKcvsPmJaFoTZRhV39ulOGfc"
+    api_key = "свой апи от гифи"
     tag = "explosion"  #тег для поиска гифок
     url = f"https://api.giphy.com/v1/gifs/random?api_key={api_key}&tag={tag}&rating=g"
     response = requests.get(url)
