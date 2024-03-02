@@ -1,6 +1,0 @@
-/explode [user id]
-/howtoblowup
-/aboutexplousion
-/explosions
-/gif
-Еще есть калькулятор. Чтоб заюзать надо просто написать вырожение, которое необходимо вычеслить.
