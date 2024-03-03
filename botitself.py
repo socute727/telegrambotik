@@ -1,20 +1,17 @@
-#тута мы импортируем бота
-import telebot
-
-#для работы калькулятора
-from telebot import types
-
-#тута что бы бот мог угарать с файлами
-import requests
-
-#для казика
-import random
-
-#ограничение по времени
-import datetime
-
+import telebot #тута мы импортируем бота
+from telebot import types #для работы калькулятора
+import requests #тута что бы бот мог угарать с файлами
+import random #тута что бы бот мог угарать с файлами
+import datetime #ограничение по времени
+import json #для хранения токена
 #токен 
-TOKEN = "6463417924:AAEyaWB5ihc2EvtYJLf_PbAXuDbDtdENkTM"
+def load_config(filename):
+    with open(filename, 'r') as f:
+        config = json.load(f)
+    return config
+
+config = load_config('config.json')
+TOKEN = config['token']
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -26,7 +23,7 @@ def lmao_megumin():
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     try:
-        with open('/home/fanat_piva/bot.txt', 'r', encoding='utf-8') as file:
+        with open('bot.txt', 'r', encoding='utf-8') as file:
             message_content = file.read()
         meg_url = lmao_megumin()
         bot.send_document(message.chat.id, meg_url, caption=message_content)
@@ -37,7 +34,7 @@ def send_welcome(message):
 @bot.message_handler(commands=['commandlist'])
 def send_list(message):
     try:
-        with open('/home/fanat_piva/commandlist.txt', 'r', encoding='utf-8') as file:
+        with open('commandlist.txt', 'r', encoding='utf-8') as file:
             message_content = file.read()
         bot.send_message(message.chat.id, message_content)
     except Exception as e:
@@ -47,7 +44,7 @@ def send_list(message):
 @bot.message_handler(commands=['faq'])
 def send_faq(message):
     try:
-        with open('/home/fanat_piva/faq.txt', 'r', encoding='utf-8') as file:
+        with open('faq.txt', 'r', encoding='utf-8') as file:
             message_content = file.read()
         bot.send_message(message.chat.id, message_content)
     except Exception as e:
@@ -62,7 +59,7 @@ def send_explosion_info(message):
 @bot.message_handler(commands= ['aboutexplousion'])
 def send_message_from_file(message):
     try:
-        with open('/home/fanat_piva/message.txt', 'r', encoding='utf-8') as file:
+        with open('message.txt', 'r', encoding='utf-8') as file:
             message_content = file.read()
         bot.send_message(message.chat.id, message_content)
     except Exception as e:
@@ -88,12 +85,10 @@ def send_sad_megumin(message):
 #для проверки, можно ли пользователю использовать команду /explode снова
 def can_explode(user_id):
     if user_id in last_explode_time:
-        #чекаем юзал ли юзер(масло масленное) сегодня взрыв
-        today = datetime.date.today()
+        today = datetime.date.today() #чекаем юзал ли юзер(масло масленное) сегодня взрыв
         return last_explode_time[user_id] != today
     else:
-        #ксли не юзал, разрешаем ему
-        return True
+        return True #если не юзал, разрешаем ему
 
 #функшн для обновления времени последнего использования команды /explode
 def update_explode_time(user_id):
@@ -108,14 +103,13 @@ def explode_user(message):
             return
         update_explode_time(user_id)
         bot.reply_to(message, f'Мое имя Мегумин! Величайший гений Клана Алых Магов, кто владеет Взрывной магией! EXPLOUSION!!!')
-        #гифка со взрывом
         file_url = explosion()
         bot.send_document(message.chat.id, file_url)
         #информация о том, кого взорвали
         bot.reply_to(message, f'{user_id} был взорван.')
         explosions_count[user_id] = explosions_count.get(user_id, 0) + 1
     except IndexError:
-        bot.reply_to(message, 'Ты долбаёб? Кого мне взрывать? id укажи.')
+        bot.reply_to(message, 'Кого мне взрывать? Id укажи.')
 
 explosions_count = {}
 
@@ -129,11 +123,11 @@ def explosion_count(message):
             count = explosions_count[user_id]
             bot.reply_to(message, f'{user_id} настоящий алый маг, он использовал взрывную магию уже {count} раз.')
     except IndexError:
-        bot.reply_to(message, 'Не указан ID пользователя.')
+        bot.reply_to(message, 'A где ID пользователя?')
 
 #рандомные гифки
 def get_random_konosuba_gif():
-    api_key = "свой апи от гифи"
+    api_key = "edsyceW8ZKcvsPmJaFoTZRhV39ulOGfc"
     tag = "konosuba"  #тег для поиска гифок
     url = f"https://api.giphy.com/v1/gifs/random?api_key={api_key}&tag={tag}&rating=g"
     response = requests.get(url)
@@ -143,6 +137,19 @@ def get_random_konosuba_gif():
         return gif_url
     else:
         return None
+
+#получает гиф
+def lain():
+    lain_url = 'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdmNoM3N0MHFhajluaTVtMGoxbjlwOWh4eTdtN2U2b2k5ajJxOWxvZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vP5gXvSXJ2olG/giphy.gif'
+    return lain_url
+#отправляет гиф
+@bot.message_handler(commands=['lain'])
+def hui_vstal(message):
+    lain_url = lain()
+    if lain_url:
+        bot.send_document(message.chat.id, lain_url)
+    else:
+        bot.reply_to(message, "Не удалось получить гифку. Попробуйте позже.")
 
 @bot.message_handler(commands=['konosubagif'])
 def send_random_gif(message):
@@ -157,7 +164,7 @@ def send_random_gif(message):
 
 #жопа
 def get_random_anime_ass_gif():
-    api_key = "свой апи от гифи"
+    api_key = "edsyceW8ZKcvsPmJaFoTZRhV39ulOGfc"
     tag = "explosion"  #тег для поиска гифок
     url = f"https://api.giphy.com/v1/gifs/random?api_key={api_key}&tag={tag}&rating=g"
     response = requests.get(url)
@@ -190,3 +197,4 @@ def calculate_expression(message):
         pass
 
 bot.polling()
+#i use arch btw
